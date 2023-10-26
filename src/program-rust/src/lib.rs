@@ -11,12 +11,12 @@ use solana_program::{
 /// Define the type of state stored in accounts
 #[derive(BorshSerialize, BorshDeserialize, Debug)]
 pub struct GreetingAccount {
-    /// number of greetings
+    /// number of times a account is greetings
     pub counter: u32,
 }
 
 // Declare and export the program's entrypoint
-entrypoint!(process_instruction);
+entrypoint!(process_instruction); //how u can  enter in program , it is main fumction to enter the program
 
 // Program entrypoint's implementation
 pub fn process_instruction(
@@ -24,7 +24,7 @@ pub fn process_instruction(
     accounts: &[AccountInfo], // The account to say hello to
     _instruction_data: &[u8], // Ignored, all helloworld instructions are hellos
 ) -> ProgramResult {
-    msg!("Hello World Rust program entrypoint");
+    msg!("Hello World Rust program entrypoint"); //console loging account to say the hello world msg
 
     // Iterating accounts is safer than indexing
     let accounts_iter = &mut accounts.iter();
@@ -42,6 +42,7 @@ pub fn process_instruction(
     let mut greeting_account = GreetingAccount::try_from_slice(&account.data.borrow())?;
     greeting_account.counter += 1;
     greeting_account.serialize(&mut &mut account.data.borrow_mut()[..])?;
+    // serialize formats the data in a way that can read in blockchain
 
     msg!("Greeted {} time(s)!", greeting_account.counter);
 
